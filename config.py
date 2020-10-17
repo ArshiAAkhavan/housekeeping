@@ -1,10 +1,11 @@
 import os
-from os import path
 import yaml
 
+from house.room import Room,Action,Actions
 
 
 def parse_config(path):
+    config=None
     with open(path, 'r') as stream:
         try:
             config=yaml.safe_load(stream)
@@ -13,12 +14,15 @@ def parse_config(path):
     return config
 
 def get_rooms(path):
-    room_paths = [path.join(path, f) for f in os.listdir(path) if path.isfile(path.join(path, f))]
-    map(,room_paths)
-
+    room_paths = [os.path.join(path, f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    rooms=[]
+    for r in room_paths:
+        cfg=parse_config(r)
+        actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
+        rooms.append(Room(cfg["path"],cfg["cycles"],actions))
+    return rooms
 
 config=""
-
 def init(config_path):
     config=parse_config(config_path)
-    get_rooms(config["house-directory"])
+    return get_rooms(config["house-directory"])
