@@ -3,6 +3,7 @@ import yaml
 
 from house.room import Room,Action,Actions
 from house.cycle import Cycle
+from house.house import House
 
 
 def parse_config(path):
@@ -30,6 +31,6 @@ def get_rooms(path):
     return rooms
 
 config=""
-def init(config_path):
+def parse(config_path):
     config=parse_config(config_path)
-    return get_rooms(config["house-directory"])
+    return House(get_rooms(config["house-directory"]))
