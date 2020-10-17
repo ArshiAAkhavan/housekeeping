@@ -19,7 +19,12 @@ def get_rooms(path):
     rooms=[]
     for r in room_paths:
         cfg=parse_config(r)
-        actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
+        pre,post,fail=None,None,None
+        if "pre_script" in cfg["actions"]: pre=Action(cfg["actions"]["pre_script"])
+        if "post_script" in cfg["actions"]: post=Action(cfg["actions"]["post_script"])
+        if "on_fail_script" in cfg["actions"]: fail=Action(cfg["actions"]["on_fail_script"])
+        actions=Actions(pre,post,fail)
+        # actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
         cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
         rooms.append(Room(cfg["path"],cycles,actions))
     return rooms
