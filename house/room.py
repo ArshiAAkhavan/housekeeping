@@ -17,7 +17,7 @@ class Room:
         self.actions=actions
         self.files=[]
         #very very important
-        self.cycles.sort()
+        # self.cycles.sort()
         self.load_all_files()
 
     def load_all_files(self):    

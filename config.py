@@ -2,6 +2,7 @@ import os
 import yaml
 
 from house.room import Room,Action,Actions
+from house.cycle import Cycle
 
 
 def parse_config(path):
@@ -19,7 +20,8 @@ def get_rooms(path):
     for r in room_paths:
         cfg=parse_config(r)
         actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
-        rooms.append(Room(cfg["path"],cfg["cycles"],actions))
+        cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
+        rooms.append(Room(cfg["path"],cycles,actions))
     return rooms
 
 config=""

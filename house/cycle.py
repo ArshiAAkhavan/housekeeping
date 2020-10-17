@@ -1,12 +1,12 @@
 from enum import Enum
 
 hour=1000*60*60
-class cycle(Enum):
-    HOUR=hour*1
-    DAY=hour*24
-    WEEK=hour*24*7
-    MONTH=hour*24*30
-    YEAR=hour*24*365
+class Cycle(Enum):
+    HOURLY=hour*1
+    DAILY=hour*24
+    WEEKLY=hour*24*7
+    MONTHLY=hour*24*30
+    YEARLY=hour*24*365
 
 
 # file="/home/kycilius/Documents/Code/Python/housekeeping/room.py"
