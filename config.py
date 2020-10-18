@@ -16,10 +16,10 @@ def parse_config(path):
     return config
 
 def get_rooms(path):
-    room_paths = [os.path.join(path, f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    room_paths = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     rooms=[]
     for r in room_paths:
-        cfg=parse_config(r)
+        cfg=parse_config(os.path.join(path, r))
         pre,post,fail=None,None,None
         if "pre_script" in cfg["actions"]: pre=Action(cfg["actions"]["pre_script"])
         if "post_script" in cfg["actions"]: post=Action(cfg["actions"]["post_script"])
@@ -27,7 +27,7 @@ def get_rooms(path):
         actions=Actions(pre,post,fail)
         # actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
         cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
-        rooms.append(Room(cfg["path"],cycles,actions))
+        rooms.append(Room(r,cfg["path"],cycles,actions))
     return rooms
 
 config=""

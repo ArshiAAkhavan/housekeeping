@@ -1,8 +1,9 @@
 import os
 from os import path
-
 from collections import namedtuple
+import time
 
+from house.cycle import Cycle
 
 class Action:
     def __init__(self,command):
@@ -11,20 +12,33 @@ class Action:
 Actions = namedtuple('Actions', 'pre_script post_script on_fail_script')
 
 class Room:
-    def __init__(self,path,cycles,actions):
+    def __init__(self,name,path,cycles,actions):
+        self.name=name
         self.path=path
         self.cycles=cycles
         self.actions=actions
         self.files=[]
+        
         #very very important
-        # self.cycles.sort()
-        self.load_all_files()
+        self.cycles=sorted(self.cycles,key=lambda c:c.value)
+        self.cycles.reverse()
+        # [print(c) for c in self.cycles]
 
     def load_all_files(self):    
-        # self.files = [path.join(path, f) for f in os.listdir(path) if path.isfile(path.join(path, f))]
-        pass
+        temp=[path.join(self.path, f) for f in os.listdir(self.path) if path.isfile(path.join(self.path, f))]
+        files=sorted([(file,os.stat(file)[9]) for file in temp],key=lambda t:t[1])#returns creation time
+        files.reverse()
+        return files
     
-    def clean(self):
+    def get_all_(self):
+        files=self.load_all_files()
+        print(files)
+        will_remain=set()
         for cycle in self.cycles:
-            pass
-            
+            now=int(time.time())
+            for p,t in files:
+                if t < now :
+                    will_remain.add(p)
+                    now-=cycle
+        return list(will_remain.difference([p for p,t in files]))
+    
