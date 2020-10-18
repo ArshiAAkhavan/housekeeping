@@ -30,7 +30,7 @@ class Room:
         files.reverse()
         return files
     
-    def get_all_(self):
+    def get_all_excess_files(self):
         files=self.load_all_files()
         print(files)
         will_remain=set()
@@ -40,5 +40,6 @@ class Room:
                 if t < now :
                     will_remain.add(p)
                     now-=cycle
+
         return list(will_remain.difference([p for p,t in files]))
     
