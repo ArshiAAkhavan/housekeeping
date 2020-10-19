@@ -34,13 +34,13 @@ class Room:
         files=self.load_all_files()
         will_remain=set()
         for cycle in self.cycles:
-            print(cycle.name)
+            # print(cycle.name)
             now=int(time.time())
             deadline=now-cycle.value.bound
             for p,t in files:
                 if t < now :
-                    print(f"now:{now}deadline:{deadline}")
-                    print(f"{p}:{t}")
+                    # print(f"now:{now}deadline:{deadline}")
+                    # print(f"{p}:{t}")
                     will_remain.add(p)
                     now-=cycle.value.unit
                     if now<=deadline:
