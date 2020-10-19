@@ -26,7 +26,7 @@ class Room:
 
     def load_all_files(self):    
         temp=[path.join(self.path, f) for f in os.listdir(self.path) if path.isfile(path.join(self.path, f))]
-        files=sorted([(file,os.stat(file)[9]) for file in temp],key=lambda t:t[1])#returns creation time
+        files=sorted([(file,os.stat(file)[8]) for file in temp],key=lambda t:t[1])#returns creation time
         files.reverse()
         return files
     
