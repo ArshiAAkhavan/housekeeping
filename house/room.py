@@ -32,15 +32,18 @@ class Room:
     
     def get_all_excess_files(self):
         files=self.load_all_files()
-        # print(files)
         will_remain=set()
         for cycle in self.cycles:
+            print(cycle.name)
             now=int(time.time())
+            deadline=now-cycle.value.bound
             for p,t in files:
                 if t < now :
                     will_remain.add(p)
-                    
-                    now-=cycle.value
+                    now-=cycle.value.unit
+                    if now<=deadline:
+                        break
+            print(will_remain)
 
-        return list(will_remain.difference([p for p,t in files]))
+        return list(set([p for p,t in files]).difference(will_remain))
     
