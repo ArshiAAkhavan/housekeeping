@@ -1,12 +1,15 @@
 import os
-
 class House:
     def __init__(self, rooms):
         self.rooms = rooms
 
-    def keep(self,dry_run=False):
+    def keep(self,dry_run=False,rooms=None):
         excess_files=[]
-        [excess_files.append((room.name,self.__keep_room(room,dry_run))) for room in self.rooms]
+        if rooms:
+            rooms=filter(None,[self.get_room_by_name(room) for room in rooms])
+            [excess_files.append((room.name,self.__keep_room(room,dry_run))) for room in rooms]
+        else:
+            [excess_files.append((room.name,self.__keep_room(room,dry_run))) for room in self.rooms]
         return excess_files
 
     def __keep_room(self, room,dry_run):
@@ -17,3 +20,8 @@ class House:
     def add_room(self,room):
         self.rooms.append(room)
 
+    def get_room_by_name(self,name):
+        for r in self.rooms:
+            if r.name==name:
+                return r
+        return None

@@ -42,6 +42,5 @@ class Room:
                     now-=cycle.value.unit
                     if now<=deadline:
                         break
-            
         return list(set([p for p,t in files]).difference(will_remain))
     
