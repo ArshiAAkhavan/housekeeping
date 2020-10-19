@@ -19,10 +19,8 @@ class Room:
         self.actions=actions
         self.files=[]
         
-        #very very important
         self.cycles=sorted(self.cycles,key=lambda c:c.value)
         self.cycles.reverse()
-        # [print(c) for c in self.cycles]
 
     def load_all_files(self):    
         temp=[path.join(self.path, f) for f in os.listdir(self.path) if path.isfile(path.join(self.path, f))]
@@ -34,19 +32,14 @@ class Room:
         files=self.load_all_files()
         will_remain=set()
         for cycle in self.cycles:
-            # print(cycle.name)
             now=int(time.time())
             deadline=now-cycle.value.bound
             for p,t in files:
                 if t < now :
-                    # print(f"now:{now}deadline:{deadline}")
-                    # print(f"{p}:{t}")
                     will_remain.add(p)
                     now-=cycle.value.unit
                     if now<=deadline:
                         break
-            # print(will_remain)
-
-
+            
         return list(set([p for p,t in files]).difference(will_remain))
     
