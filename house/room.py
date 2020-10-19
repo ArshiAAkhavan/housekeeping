@@ -38,9 +38,9 @@ class Room:
             now=int(time.time())
             deadline=now-cycle.value.bound
             for p,t in files:
-                print(f"{p}:{t}")
                 if t < now :
                     print(f"now:{now}deadline:{deadline}")
+                    print(f"{p}:{t}")
                     will_remain.add(p)
                     now-=cycle.value.unit
                     if now<=deadline:
