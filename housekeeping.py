@@ -15,9 +15,7 @@ flags=pars_flags()
 
 print (flags)
 if flags.keep:
-
-    house.keep(rooms=flags.room,dry_run=flags.dry_run)
-    excess_files=house.keep(dry_run=flags.dry_run)
+    excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
     for e in excess_files:
         print(f"room {e[0]}")
         for f in e[1]:

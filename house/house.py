@@ -6,7 +6,7 @@ class House:
     def keep(self,dry_run=False,rooms=None):
         excess_files=[]
         if rooms:
-            rooms=filter(None,[self.get_room_by_name(room) for room in rooms])
+            rooms=list(filter(None,[self.get_room_by_name(room) for room in rooms]))
             [excess_files.append((room.name,self.__keep_room(room,dry_run))) for room in rooms]
         else:
             [excess_files.append((room.name,self.__keep_room(room,dry_run))) for room in self.rooms]
