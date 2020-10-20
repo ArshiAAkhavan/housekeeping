@@ -1,5 +1,6 @@
 import argparse as arg
 import config
+import logging as logger
 
 def pars_flags():
     arg_parser= arg.ArgumentParser()
@@ -14,6 +15,11 @@ house=config.parse("housekeeping.yaml")
 flags=pars_flags()
 
 print (flags)
+
+if flags.dry_run:
+    logger.warning("running in debug mode")
+    logger.warning("just showing the comming plan (fallowing files wont get deleted)")
+        
 if flags.keep:
     excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
     for e in excess_files:
