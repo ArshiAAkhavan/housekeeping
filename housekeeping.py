@@ -6,7 +6,7 @@ def pars_flags():
     arg_parser= arg.ArgumentParser()
     arg_parser.add_argument('--room',nargs='?',action='append',type=str,required=False)
     arg_parser.add_argument('--dry-run',action='store_true',required=False)
-    arg_parser.add_argument('keep',action='store')
+    # arg_parser.add_argument('keep',action='store')
     return arg_parser.parse_args()
 
 
@@ -20,7 +20,7 @@ if flags.dry_run:
     logger.warning("running in debug mode")
     logger.warning("just showing the comming plan (fallowing files wont get deleted)")
         
-if flags.keep:
+if True or flags.keep:
     excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
     for e in excess_files:
         print(f"room {e[0]}")
