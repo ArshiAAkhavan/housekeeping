@@ -11,7 +11,7 @@ def pars_flags():
 
 
 
-house=config.parse("/etc/housekeeping.yaml")
+house=config.parse("housekeeping.yaml")
 flags=pars_flags()
 
 print (flags)

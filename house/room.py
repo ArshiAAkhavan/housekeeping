@@ -11,7 +11,7 @@ class Action:
         self.command=command
     
     def run(self):
-        cmd = subprocess.Popen(self.command,stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL)
+        cmd = subprocess.Popen(self.command)
         cmd.communicate()
         if cmd.returncode == 0:
             logger.info("command exited with exitcode 0")
