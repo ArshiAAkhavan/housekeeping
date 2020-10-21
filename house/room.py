@@ -42,7 +42,9 @@ class Room:
     
     def clean(self,excess_files):
         try:
-            [os.remove(p) for p in excess_files]
+            for p in excess_files:
+                os.remove(p) 
+                logger.warning(f"room:{self.name}\t====> file {p} deleted")
             logger.warning(f"room:{self.name}\t====> running post script")
             if self.actions.post_script:
                 self.actions.post_script.run()
