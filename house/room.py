@@ -5,6 +5,7 @@ import time
 import subprocess
 import logging as logger
 from house.cycle import Cycle
+import concurrent.futures
 
 class Action:
     def __init__(self,command):
@@ -39,21 +40,29 @@ class Room:
         files=sorted([(file,os.stat(file)[OS_STAT_CTIME]) for file in temp],key=lambda t:t[1])#returns creation time
         files.reverse()
         return files
-    
     def clean(self,excess_files):
-        try:
-            for p in excess_files:
-                os.remove(p) 
-                logger.warning(f"room:{self.name}\t====> file {p} deleted")
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            results= executor.map(self.delete,excess_files)
+            if sum(r for r in results) >0:
+                logger.warning(f"room:{self.name}\t====> deleting phase failed due to some errors")
+                logger.warning(f"room:{self.name}\t====> some excess file may already be there")
+                return 
+
             logger.warning(f"room:{self.name}\t====> running post script")
             if self.actions.post_script:
                 self.actions.post_script.run()
+            
+    def delete(self,path):
+        try:
+            os.remove(path) 
+            logger.warning(f"room:{self.name}\t====> file {path} deleted")
+            return 0
         except Exception:
             logger.warning(f"room:{self.name}\t====> failed assessing the excess files")
             logger.warning(f"room:{self.name}\t====> running on_fail script")
             if self.actions.post_script:
                 self.actions.post_script.run()
-           
+            return 1
 
     def get_all_excess_files(self):
         ##################### logging ###############################
