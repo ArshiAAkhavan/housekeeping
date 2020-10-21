@@ -1,2 +1,2 @@
 dev:
-	python3 housekeeping.py
+	python3 housekeeping.py keep

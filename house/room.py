@@ -40,10 +40,25 @@ class Room:
         files.reverse()
         return files
     
+    def clean(self,excess_files):
+        try:
+            [os.remove(p) for p in excess_files]
+            logger.warning(f"room:{self.name}\t====> running post script")
+            if self.actions.post_script:
+                self.actions.post_script.run()
+        except Exception:
+            logger.warning(f"room:{self.name}\t====> failed assessing the excess files")
+            logger.warning(f"room:{self.name}\t====> running on_fail script")
+            if self.actions.post_script:
+                self.actions.post_script.run()
+           
+
     def get_all_excess_files(self):
+        ##################### logging ###############################
         logger.warning(f"room:{self.name}\t====> running pre script")
         if self.actions.pre_script:
             self.actions.pre_script.run()
+        ##################### logging ###############################
         try:
             files=self.load_all_files()
             will_remain=set()
@@ -56,14 +71,12 @@ class Room:
                         now-=cycle.value.unit
                         if now<=deadline:
                             break
-            will_be_delted=list(set([p for p,t in files]).difference(will_remain))
-            logger.warning(f"room:{self.name}\t====> running post script")
-            if self.actions.post_script:
-                self.actions.post_script.run()
-            return will_be_delted
+                        
+            return list(set([p for p,t in files]).difference(will_remain))
         except Exception:
+            ################################ logging ###################################
             logger.warning(f"room:{self.name}\t====> failed assessing the excess files")
             logger.warning(f"room:{self.name}\t====> running on_fail script")
             if self.actions.post_script:
                 self.actions.post_script.run()
-        
+            ################################ logging ###################################

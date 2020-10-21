@@ -14,7 +14,7 @@ class House:
 
     def __keep_room(self, room,dry_run):
         excess_files=room.get_all_excess_files()
-        if not dry_run: [os.remove(p) for p in excess_files]
+        if not dry_run: room.clean(excess_files)
         return excess_files
     
     def add_room(self,room):
