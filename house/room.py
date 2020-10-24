@@ -77,6 +77,7 @@ class Room:
                 now=int(time.time())
                 deadline=now-cycle.value.bound
                 for p,t in files:
+                    if t < deadline:continue
                     if t < now :
                         will_remain.add(p)
                         now-=cycle.value.unit
