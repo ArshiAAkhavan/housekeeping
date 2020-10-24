@@ -2,3 +2,5 @@ concurrent rooms
 pattern matching
 cycle ha az deadline rad nashan
 multiple house
+
+handeling null for every part of room config file
