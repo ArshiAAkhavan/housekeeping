@@ -25,9 +25,8 @@ def get_rooms(path):
         if "post_script" in cfg["actions"]: post=Action(cfg["actions"]["post_script"])
         if "on_fail_script" in cfg["actions"]: fail=Action(cfg["actions"]["on_fail_script"])
         actions=Actions(pre,post,fail)
-        # actions=Actions(Action(cfg["actions"]["pre_script"]),Action(cfg["actions"]["post_script"]),Action(cfg["actions"]["on_fail_script"]))
         cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
-        rooms.append(Room(r,cfg["path"],cycles,actions))
+        rooms.append(Room(r,cfg["path"],cfg["pattern"],cycles,actions))
     return rooms
 
 config=""
