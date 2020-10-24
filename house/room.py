@@ -6,7 +6,7 @@ import subprocess
 import logging as logger
 from house.cycle import Cycle
 import concurrent.futures
-
+import re
 class Action:
     def __init__(self,command):
         self.command=command
@@ -25,9 +25,10 @@ Actions = namedtuple('Actions', 'pre_script post_script on_fail_script')
 OS_STAT_CTIME=8
 
 class Room:
-    def __init__(self,name,path,cycles,actions):
+    def __init__(self,name,path,pattern,cycles,actions):
         self.name=name
         self.path=path
+        self.pattern = re.compile(pattern)
         self.cycles=cycles
         self.actions=actions
         self.files=[]
@@ -36,7 +37,7 @@ class Room:
         self.cycles.reverse()
 
     def load_all_files(self):    
-        temp=[path.join(self.path, f) for f in os.listdir(self.path) if path.isfile(path.join(self.path, f))]
+        temp=[path.join(self.path, f) for f in os.listdir(self.path) if self.pattern.match(f) and path.isfile(path.join(self.path, f))]
         files=sorted([(file,os.stat(file)[OS_STAT_CTIME]) for file in temp],key=lambda t:t[1])#returns creation time
         files.reverse()
         return files
