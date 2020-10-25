@@ -7,11 +7,15 @@ def pars_flags():
     arg_parser.add_argument('--room',nargs='?',action='append',type=str,required=False)
     arg_parser.add_argument('--dry-run',action='store_true',required=False)
     arg_parser.add_argument('keep',action='store')
+    
+    house_gp = arg_parser.add_mutually_exclusive_group(required=True)
+    house_gp.add_argument('--house',action='store',type=str)
+    house_gp.add_argument('--all-houses',action='store_true')
     return arg_parser.parse_args()
 
 
-
-house=config.parse("housekeeping.yaml")
+houses=config.parse("housekeeping.yaml")
+# house=config.parse("housekeeping.yaml")
 flags=pars_flags()
 
 print (flags)
@@ -20,9 +24,15 @@ if flags.dry_run:
     logger.warning("running in debug mode")
     logger.warning("just showing the comming plan (fallowing files wont get deleted)")
         
-if flags.keep:
-    excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
-    for e in excess_files:
-        print(f"room {e[0]}")
-        for f in e[1]:
-            print(f"\t{f}")
+target_houses=houses
+if flags.house:
+    target_houses=[house for house in houses if house.name==flags.house]
+
+for house in target_houses:
+    logger.warning(f"starting the job for house {house.name}")
+    if flags.keep:
+        excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
+        for e in excess_files:
+            logger.warning(f"room {e[0]}")
+            for f in e[1]:
+                logger.warning(f"\t{f}")

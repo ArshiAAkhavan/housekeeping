@@ -48,7 +48,12 @@ def get_rooms(path):
             
     return rooms
 
+def get_houses(house_prefix):
+    house_paths=[d for d in os.listdir(house_prefix) if os.path.isdir(os.path.join(house_prefix,d))]
+    return [House(house_path,get_rooms(os.path.join(house_prefix, house_path)))for house_path in house_paths]
+
 config=""
 def parse(config_path):
     config=parse_config(config_path)
-    return House(get_rooms(config["house-directory"]))
+    return get_houses(config["house-directories"])
+    # return House(get_rooms(config["house-directory"]))
