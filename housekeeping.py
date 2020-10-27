@@ -2,6 +2,8 @@ import argparse as arg
 import config
 import logging as logger
 
+config_path="/etc/housekeeping.yaml"
+
 def pars_flags():
     arg_parser= arg.ArgumentParser()
     arg_parser.add_argument('--room',nargs='?',action='append',type=str,required=False)
@@ -13,12 +15,8 @@ def pars_flags():
     house_gp.add_argument('--all-houses',action='store_true')
     return arg_parser.parse_args()
 
-
-houses=config.parse("housekeeping.yaml")
-# house=config.parse("housekeeping.yaml")
+houses=config.parse(config_path)
 flags=pars_flags()
-
-print (flags)
 
 if flags.dry_run:
     logger.warning("running in debug mode")
@@ -32,7 +30,8 @@ for house in target_houses:
     logger.warning(f"starting the job for house {house.name}")
     if True or flags.keep:
         excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
-        for e in excess_files:
-            logger.warning(f"room {e[0]}")
-            for f in e[1]:
-                logger.warning(f"\t{f}")
+        if not flags.dry_run:
+            for e in excess_files:
+                logger.warning(f"room {e[0]}")
+                for f in e[1]:
+                    logger.warning(f"\t{f}")
