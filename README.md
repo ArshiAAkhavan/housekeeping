@@ -20,11 +20,11 @@ housekeeping policies are very much like a real householder!
 
 so first you should declare your houses , then for each house declare some room and after that define a schadule for each room
 
-1) /etc/housekeeping.yaml and add the houses parent directory (i.e. housekeeping.d)
+1) ```/etc/housekeeping.yaml``` and add the houses parent directory (i.e. housekeeping.d)
 
     your housekeping.yaml should look like something like that:
     
-    ```house-directories: house-directories: /etc/housekeeping.d```
+    ```house-directories: /etc/housekeeping.d```
 
 2) go to your houses parent directory (here we use the predefine value of etc/housekeeping.d) and create a directory for each house
     ```cd /etc/housekeeping.d
@@ -80,7 +80,7 @@ so first you should declare your houses , then for each house declare some room 
     what housekeeping does is that it makes sure that for a given cycle (i.e. DAILY) there are at most 1 file for a period of that cycle (here 1 day) till the deadline of that cycle (here 1 week) 
 
     you can also add costume cycles too , just need to define its unit and bound and you are good to go!
-    
+
 +  actions(optional): you can configure a set of action prior , after and in case of failure for each room by filling the ```post_script```,```pre_script``` and ```on_fail_script``` section of the ```actions```
 
 ### CommandLine tool
