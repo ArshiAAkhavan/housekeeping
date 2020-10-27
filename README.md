@@ -10,7 +10,9 @@ git clone <repo_address>
 
 run install script
 ```
-housekeeping/install.sh
+cd housekeeping
+chmod +x install.sh
+./install.sh
 ```
 
 ## Getting started
