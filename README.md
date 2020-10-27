@@ -12,7 +12,7 @@ run install script
 ```
 cd housekeeping
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 ```
 
 ## Getting started
