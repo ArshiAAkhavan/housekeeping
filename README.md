@@ -50,6 +50,9 @@ so first you should declare your houses , then for each house declare some room 
       - DAILY
       - MONTHLY
       - YEARLY
+      - costume:
+          unit: 10000
+          bound: 20000
   
     actions:
         pre_script :
@@ -75,6 +78,9 @@ so first you should declare your houses , then for each house declare some room 
     you can add any item from HOURLY,DAILY,WEEKLY,MONTHLY,YEARLY, or you can define your own cycle if you need
 
     what housekeeping does is that it makes sure that for a given cycle (i.e. DAILY) there are at most 1 file for a period of that cycle (here 1 day) till the deadline of that cycle (here 1 week) 
+
+    you can also add costume cycles too , just need to define its unit and bound and you are good to go!
+    
 +  actions(optional): you can configure a set of action prior , after and in case of failure for each room by filling the ```post_script```,```pre_script``` and ```on_fail_script``` section of the ```actions```
 
 ### CommandLine tool
@@ -107,3 +113,4 @@ to run in debug mode add the ```--dry-run``` flag
 ```
 housekeeping keep --house house_name --room room_name --dry-run
 ```
+
