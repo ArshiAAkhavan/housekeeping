@@ -87,7 +87,9 @@ so first you should declare your houses , then for each house declare some room 
     
 to clean up everything simply run 
 
-```housekeeping keep --all-houses```
+```
+housekeeping keep --all-houses
+```
 
 to specify a house run 
 
