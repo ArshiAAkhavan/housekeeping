@@ -1,8 +1,4 @@
-#! 
-#! 
-#! 
-#! 
-#! 
+#!/home/kycilius/anaconda3/bin/python3 
 import argparse as arg
 import config
 import logging as logger
