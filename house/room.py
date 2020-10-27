@@ -33,7 +33,7 @@ class Room:
         self.actions=actions
         self.files=[]
         
-        self.cycles=sorted(self.cycles,key=lambda c:c.value)
+        self.cycles=sorted(self.cycles)
         self.cycles.reverse()
 
     def load_all_files(self):    
@@ -76,12 +76,12 @@ class Room:
             will_remain=set()
             for cycle in self.cycles:
                 now=int(time.time())
-                deadline=now-cycle.value.bound
+                deadline=now-cycle.bound
                 for p,t in files:
                     if t < deadline:continue
                     if t < now :
                         will_remain.add(p)
-                        now-=cycle.value.unit
+                        now-=cycle.unit
                         if now<=deadline:
                             break
                         

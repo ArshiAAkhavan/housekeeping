@@ -2,7 +2,7 @@ import os
 import yaml
 
 from house.room import Room,Action,Actions
-from house.cycle import Cycle
+from house.cycle import Cycle,CycleTuple
 from house.house import House
 import logging as logger
 
@@ -36,10 +36,14 @@ def get_rooms(path):
 ######################################## Cycles ############################################
         cycles=[]
         if "cycles" in cfg:
-            cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
+            for cycle in cfg["cycles"]:
+                if type(cycle)== dict:
+                    c=list(cycle.keys())[0]
+                    cycles.append(CycleTuple(cycle[c]["unit"],cycle[c]["bound"]))
+                else: cycles.append(Cycle[cycle].value)
+            # cycles=[Cycle[cycle] for cycle in cfg["cycles"]]
         else:
-            cycles=[c for c in Cycle]
-            
+            cycles=[c.value for c in Cycle]     
         try:
             rooms.append(Room(r,cfg["path"],cfg["pattern"],cycles,actions))
         except Exception:

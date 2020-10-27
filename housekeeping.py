@@ -30,7 +30,7 @@ if flags.house:
 
 for house in target_houses:
     logger.warning(f"starting the job for house {house.name}")
-    if flags.keep:
+    if True or flags.keep:
         excess_files=house.keep(rooms=flags.room,dry_run=flags.dry_run)
         for e in excess_files:
             logger.warning(f"room {e[0]}")
